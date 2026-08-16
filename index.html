@@ -4,24 +4,45 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>pagina del andres</title>
-  <link rel="icon" href="data:image/gif;base64,R0lGODlhEAAQAPH/AAAAAP8AAP8AN////yH5BAUAAAQALAAAAAAQABAAAAM2SLrc/jA+QBUFM2iqA2bAMHSktwCCWJIYEIyvKLOuJt+wV69ry5cfwu7WCVp2RSPoUpE4n4sEADs=">
+  <link rel="icon" type="image/svg+xml" href="Tux.svg">
 
   <style>
-    body { overflow-y: scroll; font: 16px monospace, monospace; }
+    body { overflow-y: scroll; font: 16px monospace, monospace; margin: 16px 24px; }
     pre  { margin: 0; overflow-x: hidden; white-space: pre-wrap; }
-    #wrap { display: table; margin: 16px auto; }
-    #box  { max-width: 80ch; }
+    #wrap { border: none; }
+    #logo { display: block; width: 96px; height: auto; margin: 0 0 12px 0; border: none; }
     @media (max-width: 999px) { body { font-size: 1.94vw; } }
     @media (prefers-color-scheme: dark) {
       body { background: #000; color: #fff; }
       a    { color: #6CF; }
+    }
+
+    /* ---- estilo del widget de comentarios (htmlcommentbox) ---- */
+    #HCB_comment_box, #HCB_comment_box * {
+      font-family: monospace, monospace !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+    }
+    #HCB_comment_box { color: inherit; }
+    #HCB_comment_box a { color: inherit; text-decoration: underline; }
+    #HCB_comment_box textarea, #HCB_comment_box input {
+      font-family: monospace, monospace !important;
+      background: transparent !important;
+      border: 1px solid currentColor !important;
+      color: inherit !important;
+    }
+    @media (prefers-color-scheme: dark) {
+      #HCB_comment_box, #HCB_comment_box * { color: #fff !important; }
     }
   </style>
 </head>
 <body>
 
   <!-- ================================================================
-       INTRODUCCION
+       TEXTO DE INTRODUCCION
+       Cambia este texto libremente, se muestra tal cual arriba de todo.
        ================================================================ -->
   <p id="intro-text" hidden>
 hola, en esta pagina voy a mostrar mis repositorios, se que no es muy
@@ -29,16 +50,29 @@ interesante pero ando haciendo esto xq ando aburrido mi papu pana &lt;3
   </p>
 
   <!-- ================================================================
-       REPOSITORIOS
+       REPOS DESTACABLES
+       Para agregar uno nuevo, copia una linea y cambia los 3 valores:
+       ["nombre-del-repo", "https://github.com/usuario/repo", "descripcion"]
+       El alineado de las columnas se calcula solo, no hace falta tocar
+       espacios a mano.
        ================================================================ -->
-  <script id="repos-data" type="application/json">
+  <script id="repos-featured-data" type="application/json">
   [
     ["dotfiles",       "https://github.com/AndresBDW/dotfiles",       "Los dotfiles de mi sistema."],
     ["bin",            "https://github.com/AndresBDW/bin",            "Binarios/scripts que uso en mi dia a dia."],
     ["pkg",            "https://github.com/AndresBDW/pkg",            "Repositorio para KISS Linux que contiene paquetes que me parecen utiles."],
     ["NoteEventTest",  "https://github.com/AndresBDW/NoteEventTest",  "Port a Linux de NoteEventTest."],
     ["drop",           "https://github.com/AndresBDW/drop",           "Script en Shell que sirve para subir archivos a varios hostings de archivos."],
-    ["gfetch",         "https://github.com/AndresBDW/gfetch",         "Port de gfetch.rc para Linux."],
+    ["gfetch",         "https://github.com/AndresBDW/gfetch",         "Port de gfetch.rc para Linux."]
+  ]
+  </script>
+
+  <!-- ================================================================
+       OTROS REPOS
+       Mismo formato que la lista de arriba.
+       ================================================================ -->
+  <script id="repos-other-data" type="application/json">
+  [
     ["posix-starwars", "https://github.com/AndresBDW/posix-starwars", "Script que muestra la pelicula de star wars en la terminal."],
     ["chroot-env",     "https://github.com/AndresBDW/chroot-env",     "Script hecho para facilitar el uso de chroot."],
     ["UsbMC",          "https://github.com/AndresBDW/UsbMC",          "Mini-Launcher portable y ligero hecho en batch para el Minecraft 1.0-1.2.5 (deprecated)"],
@@ -51,6 +85,8 @@ interesante pero ando haciendo esto xq ando aburrido mi papu pana &lt;3
 
   <!-- ================================================================
        CONTACTO
+       Para agregar/quitar una linea, copia el patron:
+       ["Etiqueta", "texto a mostrar", "link opcional (o vacio)"]
        ================================================================ -->
   <script id="contact-data" type="application/json">
   [
@@ -61,7 +97,7 @@ interesante pero ando haciendo esto xq ando aburrido mi papu pana &lt;3
   ]
   </script>
 
-  <div id="wrap"><div id="box"><pre id="output"></pre></div></div>
+  <div id="wrap"><pre id="output"></pre></div>
 
   <script>
     const SEP = "_".repeat(80);
@@ -90,17 +126,21 @@ interesante pero ando haciendo esto xq ando aburrido mi papu pana &lt;3
     }
 
     const intro    = document.getElementById("intro-text").textContent.trim();
-    const repos    = JSON.parse(document.getElementById("repos-data").textContent);
+    const reposFeatured = JSON.parse(document.getElementById("repos-featured-data").textContent);
+    const reposOther    = JSON.parse(document.getElementById("repos-other-data").textContent);
     const contact  = JSON.parse(document.getElementById("contact-data").textContent);
 
     document.getElementById("output").innerHTML =
       intro + "\n\n" +
       SEP + "\n\n" +
-      renderList(repos) + "\n\n" +
+      "repos destacables:\n\n" +
+      renderList(reposFeatured) + "\n\n" +
+      "otros repos:\n\n" +
+      renderList(reposOther) + "\n\n" +
       SEP + "\n\n" +
       renderContact(contact) + "\n\n" +
       SEP + "\n\n" +
-      `<div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Loading comments...</a> </div>`;
+      `<div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>`;
   </script>
 
   <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0">

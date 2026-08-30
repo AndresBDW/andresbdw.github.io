@@ -64,9 +64,9 @@ interesante pero ando haciendo esto xq ando aburrido mi papu pana &lt;3
   [
     ["dotfiles",       "https://github.com/andreszss/dotfiles",         "Los dotfiles de mi sistema."],
     ["bin",            "https://github.com/andreszss/bin",              "Binarios/scripts que uso en mi dia a dia."],
-    ["pkg",            "https://github.com/andreszss/pkg",              "Repositorio para KISS Linux que contiene paquetes que me parecen utiles."],
     ["NoteEventTest",  "https://github.com/andreszss/NoteEventTest",    "Port a Linux de NoteEventTest."],
     ["drop",           "https://github.com/andreszss/drop",             "Script en Shell que sirve para subir archivos a varios hostings de archivos."],
+    ["1024OS",         "https://github.com/andreszss/1024OS",           "Mini sistema hecho desde cero en C y Assembly."],
     ["gfetch",         "https://github.com/andreszss/gfetch",           "Port de gfetch.rc para Linux."]
   ]
   </script>
@@ -78,12 +78,27 @@ interesante pero ando haciendo esto xq ando aburrido mi papu pana &lt;3
   [
     ["posix-starwars", "https://github.com/andreszss/posix-starwars",   "Script que muestra la pelicula de star wars en la terminal."],
     ["chroot-env",     "https://github.com/andreszss/chroot-env",       "Script hecho para facilitar el uso de chroot."],
-    ["UsbMC",          "https://github.com/andreszss/UsbMC",            "Mini-Launcher portable y ligero hecho en batch para el Minecraft 1.0-1.2.5 (deprecated)"],
+    ["UsbMC",          "https://github.com/andreszss/UsbMC",            "Mini-Launcher portable y ligero hecho en batch para el Minecraft 1.0-1.2.5. (deprecated)"],
     ["coal",           "https://github.com/andreszss/coal",             "Script de shell que toma colores y los tranforma en una paleta para varias herramientas."],
     ["shlolcat",       "https://github.com/andreszss/shlolcat",         "Implementacion de lolcat escrita en POSIX sh."],
     ["flash",          "https://github.com/andreszss/flash",            "Script para flashear imagenes .iso a un USB."],
-    ["1024OS",         "https://github.com/andreszss/1024OS",           "Mini sistema hecho desde cero en C y Assembly."],
+    ["pkg",            "https://github.com/andreszss/pkg",              "Repositorio para KISS Linux que contiene paquetes que me parecen utiles. (deprecated)"],
 	["vfetch-patches", "https://codeberg.org/andreszss/vfetch-patches", "Fork para pull-request para el repo de vfetch-patches."]
+  ]
+  </script>
+
+  <!-- ================================================================
+       SETUP
+       ================================================================ -->
+  <script id="setup-data" type="application/json">
+  [
+    ["OS",         "CachyOS"],
+    ["DE",         "KDE Plasma"],
+    ["Kernel",     "linux-cachyos-bore"],
+    ["CPU",        "AMD Ryzen 3 5425U"],
+    ["GPU",        "AMD Barcelo"],
+    ["RAM",        "8GB DDR4"],
+    ["NVMe",       "WD Green SN350 500GB 2G0C"]
   ]
   </script>
 
@@ -132,6 +147,7 @@ interesante pero ando haciendo esto xq ando aburrido mi papu pana &lt;3
     const intro    = document.getElementById("intro-text").textContent.trim();
     const reposFeatured = JSON.parse(document.getElementById("repos-featured-data").textContent);
     const reposOther    = JSON.parse(document.getElementById("repos-other-data").textContent);
+    const setup    = JSON.parse(document.getElementById("setup-data").textContent);
     const contact  = JSON.parse(document.getElementById("contact-data").textContent);
 
     document.getElementById("output").innerHTML =
@@ -142,6 +158,10 @@ interesante pero ando haciendo esto xq ando aburrido mi papu pana &lt;3
       "otros repos:\n\n" +
       renderList(reposOther) + "\n\n" +
       SEP + "\n\n" +
+      "setup:\n\n" +
+      renderContact(setup) + "\n\n" +
+      SEP + "\n\n" +
+      "contactame:\n\n" +
       renderContact(contact) + "\n\n" +
       SEP + "\n\n" +
       `<div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">cargando comentarios...</a></div>`;
